@@ -212,10 +212,11 @@ def get_lock_status(can_parser, can_sock):
 def is_url_pingable(url):
   headers = {"User-Agent": "frogpilot-ping-test/1.0 (https://github.com/FrogAi/FrogPilot)"}
   try:
-    response = requests.head(url, headers=headers, timeout=10, allow_redirects=True)
-    if response.status_code in (405, 501):
-      response = requests.get(url, headers=headers, timeout=10, allow_redirects=True, stream=True)
-    return response.ok
+    with requests.head(url, headers=headers, timeout=10, allow_redirects=True) as response:
+      if response.status_code in (405, 501):
+        with requests.get(url, headers=headers, timeout=10, allow_redirects=True, stream=True) as response:
+          return response.ok
+      return response.ok
   except (requests.exceptions.ConnectionError, requests.exceptions.SSLError):
     return False
   except requests.exceptions.RequestException as error:
