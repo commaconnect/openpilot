@@ -283,14 +283,11 @@ def is_url_pingable(url):
     is_url_pingable.session.headers.update({"User-Agent": "frogpilot-ping-test/1.0 (https://github.com/FrogAi/FrogPilot)"})
 
   try:
-    response = is_url_pingable.session.head(url, timeout=10, allow_redirects=True)
-    if response.status_code in (405, 501):
-      response = is_url_pingable.session.get(url, timeout=10, allow_redirects=True, stream=True)
-
-    is_accessible = response.ok
-    response.close()
-    return is_accessible
-
+    with is_url_pingable.session.head(url, timeout=10, allow_redirects=True) as response:
+      if response.status_code in (405, 501):
+        with is_url_pingable.session.get(url, timeout=10, allow_redirects=True, stream=True) as response:
+          return response.ok
+      return response.ok
   except (requests.exceptions.ConnectionError, requests.exceptions.SSLError):
     return False
   except requests.exceptions.RequestException as error:
