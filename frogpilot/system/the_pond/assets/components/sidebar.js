@@ -100,7 +100,7 @@ export function Sidebar() {
             <ul class="menu_section">
               <li>
                 <span class="section-title">${upperFirst(section)}</span>
-                <ul id="${section}">
+                <ul id=${section}>
                   ${links.map(link => {
                     if (link.name === "Lock/Unlock Doors" && !state.doorsVisible) {
                       return "";
@@ -115,13 +115,13 @@ export function Sidebar() {
 
                     const content = html`
                       <div class="menu-item-link">
-                        <i class="${`bi ${link.icon}`}"></i>
+                        <i class=${`bi ${link.icon}`}></i>
                         <span>${upperFirst(link.name)}</span>
                       </div>
                     `;
 
                     return html`
-                      <li class="${classList}">
+                      <li class=${classList}>
                         ${Link(link.link, content, () => navigate(link))}
                       </li>
                     `;

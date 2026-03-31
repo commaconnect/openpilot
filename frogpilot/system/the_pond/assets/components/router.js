@@ -93,14 +93,14 @@ function Root() {
 
 export function Link(href, children, onClick, classes = "") {
   return html`<a
-    class="${classes}"
-    href="${() => href}"
-    @click="${(e) => {
+    class=${() => classes}
+    href=${() => href}
+    @click=${(e) => {
       e.preventDefault()
       router.navigate(e.currentTarget.href)
       hideSidebar()
       onClick?.()
-    }}"
+    }}
   >${children}</a>`
 }
 

@@ -18,7 +18,7 @@ export function SpeedLimits() {
           Download speed limit data collected using "Speed Limit Filler".
         </p>
         <div class="download-speed-limits-button-wrapper">
-          <button class="download-speed-limits-button" @click="${handleDownload}">Download</button>
+          <button class="download-speed-limits-button" @click=${handleDownload}>Download</button>
           <a class="download-speed-limits-link" href="https://SpeedLimitFiller.frogpilot.download" target="_blank">
             Submit speed limits here
           </a>

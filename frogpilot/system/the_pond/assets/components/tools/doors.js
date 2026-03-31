@@ -20,8 +20,8 @@ export function DoorControl () {
         <p class="door-control-text">
           Remotely lock or unlock your car doors using the buttons below.
         </p>
-        <button class="door-control-button" @click="${lockDoors}">🔒 Lock Doors</button>
-        <button class="door-control-button" @click="${unlockDoors}">🔓 Unlock Doors</button>
+        <button class="door-control-button" @click=${lockDoors}>🔒 Lock Doors</button>
+        <button class="door-control-button" @click=${unlockDoors}>🔓 Unlock Doors</button>
       </section>
     </div>
   `

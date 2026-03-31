@@ -325,8 +325,8 @@ export function RouteRecordings() {
         <div class="screen-recordings-title">Dashcam Routes</div>
         <button
           class="show-preserved-button"
-          @click="${() => (state.showPreservedOnly = !state.showPreservedOnly)}"
-          ?disabled="${state.loading && state.routes.length === 0}"
+          @click=${() => (state.showPreservedOnly = !state.showPreservedOnly)}
+          ?disabled=${state.loading && state.routes.length === 0}
         >
           ${() => (state.showPreservedOnly ? "Show All" : "Show Only Preserved Routes")}
         </button>
@@ -398,22 +398,22 @@ export function RouteRecordings() {
                         delete card.dataset.loadingGif;
                       }
                     }}"
-                    @click="${() => {
+                    @click=${() => {
                       state.selectedRoute = route;
-                    }}"
+                    }}
                   >
-                    <div class="preserved-icon" @click="${e => togglePreserved(route, e)}">
-                      ${() => html`<i class="${`bi ${route.is_preserved ? "bi-heart-fill" : "bi-heart"}`}"></i>`}
+                    <div class="preserved-icon" @click=${e => togglePreserved(route, e)}>
+                      ${() => html`<i class=${`bi ${route.is_preserved ? "bi-heart-fill" : "bi-heart"}`}></i>`}
                     </div>
 
                     <div class="recording-preview-container">
                       <img
-                        src="${route.png}"
+                        src=${route.png}
                         class="recording-preview recording-preview-png"
                         style="display:block;"
                       >
                       <img
-                        data-src="${route.gif}"
+                        data-src=${route.gif}
                         class="recording-preview recording-preview-gif"
                         style="display:none;"
                       >
@@ -430,8 +430,8 @@ export function RouteRecordings() {
             return html`
               <button
                 class="delete-all-button"
-                @click="${() => (state.showDeleteAllModal = true)}"
-                ?disabled="${state.isDeletingAll}"
+                @click=${() => (state.showDeleteAllModal = true)}
+                ?disabled=${state.isDeletingAll}
               >
                 ${() => (state.isDeletingAll ? "Deleting..." : "Delete All Routes")}
               </button>

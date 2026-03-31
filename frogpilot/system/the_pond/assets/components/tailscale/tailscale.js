@@ -63,8 +63,8 @@ export function TailscaleControl() {
         <div class="tailscale-button-wrapper">
           <button
             class="tailscale-button"
-            @click="${() => state.installed ? confirmUninstall() : handleAction()}"
-            disabled="${() => state.status === 'installing' || state.status === 'uninstalling'}"
+            @click=${() => state.installed ? confirmUninstall() : handleAction()}
+            ?disabled=${() => state.status === 'installing' || state.status === 'uninstalling'}
           >
             ${() => {
               if (state.status === 'installing') return 'Installing...'

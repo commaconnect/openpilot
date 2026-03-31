@@ -210,7 +210,7 @@ export function NavKeys() {
         <div class="navkeys-title">
           ${title}
           ${isMapbox ? html`
-            <span class="navkeys-help-icon" @click="${() => state.showMapboxHelp = !state.showMapboxHelp}">
+            <span class="navkeys-help-icon" @click=${() => state.showMapboxHelp = !state.showMapboxHelp}>
               <i class="bi bi-question-circle-fill"></i>
             </span>
           ` : ""}
@@ -221,28 +221,28 @@ export function NavKeys() {
           const label = kind[0].toUpperCase() + kind.slice(1).replace(/[0-9]/, d => " " + d)
 
           return html`
-            <label class="navkeys-label" for="${kind}-key">${label} Key</label>
+            <label class="navkeys-label" for=${`${kind}-key`}>${label} Key</label>
             <div class="navkeys-row">
               <input
                 autocomplete="off"
                 class="navkeys-input"
-                id="${kind}-key"
-                placeholder="${keyMeta.prefix || ""}xxxxxx..."
-                value="${() => state[keyMeta.saved] ? util.mask(state[keyMeta.prop]) : state[keyMeta.prop]}"
-                @keydown="${(e) => {
+                id=${`${kind}-key`}
+                placeholder=${`${keyMeta.prefix || ""}xxxxxx...`}
+                value=${() => state[keyMeta.saved] ? util.mask(state[keyMeta.prop]) : state[keyMeta.prop]}
+                @keydown=${(e) => {
                   if (state[keyMeta.saved] && !state[keyMeta.edit]) {
                     state[keyMeta.edit] = true
                     state[keyMeta.saved] = false
                     state[keyMeta.prop] = ""
                     e.target.value = ""
                   }
-                }}"
-                @input="${(e) => state[keyMeta.prop] = e.target.value}"
+                }}
+                @input=${(e) => state[keyMeta.prop] = e.target.value}
               />
               <button
-                class="${() => `navkeys-btn ${state[keyMeta.saved] ? "delete" : ""}`}"
-                @click="${() => state[keyMeta.saved] ? api.confirmDelete(kind) : api.save(kind)()}"
-                disabled="${() => !state[keyMeta.saved] && !canSave(kind)}">
+                class=${() => `navkeys-btn ${state[keyMeta.saved] ? "delete" : ""}`}
+                @click=${() => state[keyMeta.saved] ? api.confirmDelete(kind) : api.save(kind)()}
+                ?disabled=${() => !state[keyMeta.saved] && !canSave(kind)}>
                 ${() => state[keyMeta.saved] ? "🗑️" : "💾"}
               </button>
             </div>
@@ -255,7 +255,7 @@ export function NavKeys() {
               <div class="navkeys-help-img">
                 <img
                   alt="Mapbox key setup guide"
-                  src="${() => {
+                  src=${() => {
                     const bothKeysSet = state.savedPublic && state.savedSecret
 
                     let imageSource = "/mapbox-help/no_keys_set.png"
@@ -265,7 +265,7 @@ export function NavKeys() {
                       imageSource = "/mapbox-help/public_key_set.png"
                     }
                     return `${imageSource}?v=${state.imageVersion}`
-                  }}"
+                  }}
                 />
               </div>
             `
@@ -281,12 +281,12 @@ export function NavKeys() {
       <div class="navkeys-status">
         <div
           class="navkeys-message"
-          style="${() => state.lastGroup === group && state.message ? `opacity: ${state.visible ? 1 : 0}` : "opacity: 0"}">
+          style=${() => state.lastGroup === group && state.message ? `opacity: ${state.visible ? 1 : 0}` : "opacity: 0"}>
           ${() => state.message}
         </div>
         <div
           class="navkeys-error"
-          style="${() => state.lastGroup === group && state.error ? `opacity: ${state.visible ? 1 : 0}` : "opacity: 0"}">
+          style=${() => state.lastGroup === group && state.error ? `opacity: ${state.visible ? 1 : 0}` : "opacity: 0"}>
           ${() => state.error}
         </div>
       </div>
