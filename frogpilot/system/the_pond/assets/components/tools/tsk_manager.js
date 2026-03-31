@@ -130,7 +130,7 @@ const api = {
   },
 
   delete: async (name) => {
-    const url = `${api.path}?name=${encodeURIComponent(name)}`
+    const url = `${api.path}?name="${encodeURIComponent(name)}"`
     const { ok, data } = await util.req(url, { method: "DELETE" })
 
     state.confirmDelete.visible = false;
@@ -182,11 +182,11 @@ export function TSKManager() {
           <select
             id="tsk-select-key"
             class="tskkeys-select"
-            value=${() => state.selectedKeyName}
-            @change=${(e) => selectKey(e.target.value)}>
+            value="${() => state.selectedKeyName}"
+            @change="${(e) => selectKey(e.target.value)}">
             <option value="">-- Select a saved key --</option>
             ${() => (state.keys || []).map(k => html`
-              <option value=${k.name}>${k.name}</option>
+              <option value="${k.name}">${k.name}</option>
             `)}
           </select>
         </div>
@@ -198,12 +198,12 @@ export function TSKManager() {
             class="tskkeys-input"
             placeholder="Enter key name..."
             autocomplete="off"
-            value=${() => state.keyName}
-            @input=${(e) => {
+            value="${() => state.keyName}"
+            @input="${(e) => {
               state.keyName = e.target.value.replace(/^\s+/, "")
               state.saved = false
               state.editMode = true
-            }}
+            }}"
           />
         </div>
 
@@ -220,26 +220,26 @@ export function TSKManager() {
             class="tskkeys-input"
             placeholder="Enter key value..."
             autocomplete="off"
-            value=${() => state.keyValue}
-            @input=${(e) => {
+            value="${() => state.keyValue}"
+            @input="${(e) => {
               state.keyValue = e.target.value.replace(/^\s+/, "")
               state.saved = false
               state.editMode = true
-            }}
+            }}"
           />
           <button
-            class=${() => `tskkeys-btn ${state.saved ? "delete" : ""} ${!canSave() ? "disabled" : ""}`}
-            ?disabled=${() => !canSave()}
-            @click=${() => api.save()}>
+            class="${() => `tskkeys-btn ${state.saved ? "delete" : ""} ${!canSave() ? "disabled" : ""}`}"
+            ?disabled="${() => !canSave()}"
+            @click="${() => api.save()}">
             💾
           </button>
           <button
-            class=${() => `tskkeys-btn delete ${!state.selectedKeyName ? "disabled" : ""}`}
-            ?disabled=${() => !state.selectedKeyName}
-            @click=${() => {
+            class="${() => `tskkeys-btn delete ${!state.selectedKeyName ? "disabled" : ""}`}"
+            ?disabled="${() => !state.selectedKeyName}"
+            @click="${() => {
               state.confirmDelete.visible = true
               state.confirmDelete.keyName = state.selectedKeyName
-            }}>
+            }}">
             🗑️
           </button>
         </div>
@@ -247,28 +247,28 @@ export function TSKManager() {
         <div class="tskkeys-status">
           <div
             class="tskkeys-message"
-            style=${() => state.message ? `opacity: ${state.visible ? 1 : 0}` : "opacity: 0"}>
+            style="${() => state.message ? `opacity: ${state.visible ? 1 : 0}` : "opacity: 0"}">
             ${() => state.message}
           </div>
           <div
             class="tskkeys-error"
-            style=${() => state.error ? `opacity: ${state.visible ? 1 : 0}` : "opacity: 0"}>
+            style="${() => state.error ? `opacity: ${state.visible ? 1 : 0}` : "opacity: 0"}">
             ${() => state.error}
           </div>
         </div>
 
         <div class="tskkeys-row tskkeys-apply-wrapper">
           <button
-            class=${() => `tskkeys-btn apply ${!state.selectedKeyName ? "disabled" : ""}`}
-            ?disabled=${() => !state.selectedKeyName}
-            @click=${() => {
+            class="${() => `tskkeys-btn apply ${!state.selectedKeyName ? "disabled" : ""}`}"
+            ?disabled="${() => !state.selectedKeyName}"
+            @click="${() => {
               const selected = state.keys.find(k => k.name === state.selectedKeyName)
               if (selected) {
                 api.applyKey(selected.name, selected.value)
               } else {
                 showMessage("error", "Select a key from the list first")
               }
-            }}>
+            }}">
             Apply Key
           </button>
         </div>

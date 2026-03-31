@@ -59,9 +59,9 @@ export function ErrorLogs() {
               ? html`<div class="fileEntry"><p>No error logs!</p></div>`
               : state.files.map(file => html`
                 <div class="fileEntry"
-                  @click=${() => {
+                  @click="${() => {
                     state.selectedLog = state.selectedLog === file.filename ? undefined : file.filename;
-                  }}>
+                  }}">
                   <p>${file.date}</p>
                   <p class="time-since">
                     ${file.timeSince < 60 ? "just now" : `${formatSecondsToHuman(file.timeSince, "minutes")} ago`}
@@ -75,7 +75,7 @@ export function ErrorLogs() {
               <div style="text-align: center; padding: 1rem;">
                 <button
                   class="delete-all-button"
-                  @click=${() => (state.showDeleteAllModal = true)}>
+                  @click="${() => (state.showDeleteAllModal = true)}">
                   Delete All Error Logs
                 </button>
               </div>
@@ -168,13 +168,13 @@ function Logviewer(filename, closeFn) {
   <div id="fileViewer">
     <div>
       <p>${filename}</p>
-      <button @click=${closeFn}>
+      <button @click="${closeFn}">
         <i class="bi bi-x-lg"></i>
       </button>
-      <button @click=${deleteLog}>
+      <button @click="${deleteLog}">
         <i class="bi bi-trash"></i>
       </button>
-      <button @click=${copyLog}>
+      <button @click="${copyLog}">
         <i class="bi bi-clipboard"></i>
       </button>
       <a href="/api/error_logs/${filename}" download>

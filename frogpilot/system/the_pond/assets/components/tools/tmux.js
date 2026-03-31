@@ -113,7 +113,7 @@ function TmuxLogSelector({ action, closeFn }) {
   }
 
   return html`
-    <div class="tmux-log-selector-wrapper" @click=${(e) => e.target === e.currentTarget && closeFn()}>
+    <div class="tmux-log-selector-wrapper" @click="${(e) => e.target === e.currentTarget && closeFn()}">
       <div id="fileList">
         <div class="fileEntry header">
           <p>Filename</p>
@@ -129,7 +129,7 @@ function TmuxLogSelector({ action, closeFn }) {
             return html`<div class="fileEntry"><p>No tmux logs found!</p></div>`;
           }
           return logSelectorState.files.map(file => html`
-            <div class="fileEntry" @click=${() => handleFileClick(file)}>
+            <div class="fileEntry" @click="${() => handleFileClick(file)}">
               <p><span class="label">Filename:</span> <span class="value">${file.filename}</span></p>
               <p><span class="label">Date:</span> <span class="value">${file.date}</span></p>
               <p><span class="label">Age:</span> <span class="value">${file.timeSince < 60 ? "just now" : `${formatSecondsToHuman(file.timeSince, "minutes")} ago`}</span></p>
@@ -137,7 +137,7 @@ function TmuxLogSelector({ action, closeFn }) {
           `);
         }}
 
-        <button @click=${closeFn} class="cancel-button">Close</button>
+        <button @click="${closeFn}" class="cancel-button">Close</button>
 
         ${() => logSelectorState.logToDelete ? Modal({
           title: "Confirm Delete",
@@ -156,9 +156,9 @@ function TmuxLogSelector({ action, closeFn }) {
                 <input
                   class="modal-input"
                   type="text"
-                  value=${() => logSelectorState.newName}
-                  @click=${e => e.stopPropagation()}
-                  @input=${(e) => logSelectorState.newName = e.target.value}
+                  value="${() => logSelectorState.newName}"
+                  @click="${e => e.stopPropagation()}"
+                  @input="${(e) => logSelectorState.newName = e.target.value}"
                 />
               </div>
             </div>
@@ -254,12 +254,12 @@ export function TmuxLog() {
       </div>
 
       <div class="tmux-controls">
-        <button class="tmux-control-button" @click=${captureLog}>💾 Capture Log</button>
-        <button class="tmux-control-button" @click=${deleteSession}>🗑️ Delete Log</button>
-        <button class="tmux-control-button" @click=${confirmDeleteAllSessions}>🧨 Delete All Logs</button>
-        <button class="tmux-control-button" @click=${downloadSessions}>⬇️ Download Log</button>
-        <button class="tmux-control-button" @click=${togglePause}>${() => state.paused ? "▶️ Resume Log" : "⏸️ Pause Log"}</button>
-        <button class="tmux-control-button" @click=${() => state.selectorAction = 'rename'}>✏️ Rename Log</button>
+        <button class="tmux-control-button" @click="${captureLog}">💾 Capture Log</button>
+        <button class="tmux-control-button" @click="${deleteSession}">🗑️ Delete Log</button>
+        <button class="tmux-control-button" @click="${confirmDeleteAllSessions}">🧨 Delete All Logs</button>
+        <button class="tmux-control-button" @click="${downloadSessions}">⬇️ Download Log</button>
+        <button class="tmux-control-button" @click="${togglePause}">${() => state.paused ? "▶️ Resume Log" : "⏸️ Pause Log"}</button>
+        <button class="tmux-control-button" @click="${() => state.selectorAction = 'rename'}">✏️ Rename Log</button>
       </div>
 
       ${() => state.selectorAction
