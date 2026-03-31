@@ -403,8 +403,9 @@ export function RouteRecordings() {
                     }}"
                   >
                     <div class="preserved-icon" @click="${e => togglePreserved(route, e)}">
-                      ${() => html`<i class="bi ${route.is_preserved ? "bi-heart-fill" : "bi-heart"}"></i>`}
+                      ${() => html`<i class="${`bi ${route.is_preserved ? "bi-heart-fill" : "bi-heart"}`}"></i>`}
                     </div>
+
                     <div class="recording-preview-container">
                       <img
                         src="${route.png}"

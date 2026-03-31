@@ -689,8 +689,8 @@ function SearchSuggestions({ suggestions, selectSuggestion, removeFavorite, rena
       </p>
       ${isFavorite(s) ? html`
         <div class="favorite-actions">
-          <button class="home-favorite-button ${s.is_home ? "active" : ""}" title="Set as Home" @click="${e => { e.stopPropagation(); setHome(s); }}">🏠</button>
-          <button class="work-favorite-button ${s.is_work ? "active" : ""}" title="Set as Work" @click="${e => { e.stopPropagation(); setWork(s); }}">💼</button>
+          <button class="${`home-favorite-button ${s.is_home ? "active" : ""}`}" title="Set as Home" @click="${e => { e.stopPropagation(); setHome(s); }}">🏠</button>
+          <button class="${`work-favorite-button ${s.is_work ? "active" : ""}`}" title="Set as Work" @click="${e => { e.stopPropagation(); setWork(s); }}">💼</button>
           <button class="edit-favorite-button" title="Rename Favorite" @click="${e => { e.stopPropagation(); renameFavorite(s); }}">✏️</button>
           <button class="remove-favorite-button" title="Remove from Favorites" @click="${e => { e.stopPropagation(); removeFavorite(s); }}">🗑️</button>
         </div>

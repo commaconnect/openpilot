@@ -115,7 +115,7 @@ export function Sidebar() {
 
                     const content = html`
                       <div class="menu-item-link">
-                        <i class="bi ${link.icon}"></i>
+                        <i class="${`bi ${link.icon}`}"></i>
                         <span>${upperFirst(link.name)}</span>
                       </div>
                     `;
