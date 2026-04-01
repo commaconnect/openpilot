@@ -136,9 +136,9 @@ def capture_report(discord_user, report, frogpilot_toggles):
   }
 
   try:
-    response = requests.post(f"{FROGPILOT_API}/discord/report", json=payload, headers={"Content-Type": "application/json", "User-Agent": "frogpilot-api/1.0"}, timeout=30)
-    response.raise_for_status()
-    print("Successfully sent error report!")
+    with requests.post(f"{FROGPILOT_API}/discord/report", json=payload, headers={"Content-Type": "application/json", "User-Agent": "frogpilot-api/1.0"}, timeout=30) as response:
+      response.raise_for_status()
+      print("Successfully sent error report!")
   except requests.exceptions.RequestException as exception:
     print(f"Error sending report: {exception}")
 
@@ -162,15 +162,14 @@ def check_remote_toggles(started=False, sm=None, boot_run=False):
     if not dongle_id or not api_token:
       return
 
-    response = requests.get(
+    with requests.get(
       f"{FROGPILOT_API}/pond/toggles/pending",
       params={"dongle_id": dongle_id, "api_token": api_token},
       headers={"Content-Type": "application/json", "User-Agent": "frogpilot-api/1.0"},
       timeout=10,
-    )
-    response.raise_for_status()
-
-    data = response.json()
+    ) as response:
+      response.raise_for_status()
+      data = response.json()
 
     if data.get("paired") is False:
       params.put_bool("PondPaired", False)
@@ -191,7 +190,7 @@ def check_remote_toggles(started=False, sm=None, boot_run=False):
 
     update_frogpilot_toggles()
 
-    requests.post(
+    with requests.post(
       f"{FROGPILOT_API}/pond/toggles/ack",
       json={
         "api_token": api_token,
@@ -200,7 +199,8 @@ def check_remote_toggles(started=False, sm=None, boot_run=False):
       },
       headers={"Content-Type": "application/json", "User-Agent": "frogpilot-api/1.0"},
       timeout=10,
-    ).raise_for_status()
+    ) as response:
+      response.raise_for_status()
 
     print(f"Successfully applied {len(toggles)} remote toggles")
 
@@ -455,12 +455,13 @@ def upload_toggles():
       "toggles": toggles,
     }
 
-    requests.post(
+    with requests.post(
       f"{FROGPILOT_API}/pond/toggles/sync",
       json=payload,
       headers={"Content-Type": "application/json", "User-Agent": "frogpilot-api/1.0"},
       timeout=10,
-    ).raise_for_status()
+    ) as response:
+      response.raise_for_status()
 
     print("Successfully uploaded toggles to FrogPilot.com")
 
