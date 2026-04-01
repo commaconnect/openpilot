@@ -666,7 +666,7 @@ export function NavDestination() {
         <div>
           <p>Rename <strong>${state.favoriteToRename.name}</strong> to:</p>
           <div style="margin-top: 10px;">
-            <input class="modal-input" type="text" value="${state.newFavoriteName}" @click="${e => e.stopPropagation()}" @input="${e => state.newFavoriteName = e.target.value}" />
+            <input class="modal-input" type="text" value="${() => state.newFavoriteName}" @click="${e => e.stopPropagation()}" @input="${e => state.newFavoriteName = e.target.value}" />
           </div>
         </div>
       `,
@@ -689,8 +689,8 @@ function SearchSuggestions({ suggestions, selectSuggestion, removeFavorite, rena
       </p>
       ${isFavorite(s) ? html`
         <div class="favorite-actions">
-          <button class="home-favorite-button ${s.is_home ? "active" : ""}" title="Set as Home" @click="${e => { e.stopPropagation(); setHome(s); }}">🏠</button>
-          <button class="work-favorite-button ${s.is_work ? "active" : ""}" title="Set as Work" @click="${e => { e.stopPropagation(); setWork(s); }}">💼</button>
+          <button class="${() => `home-favorite-button ${s.is_home ? "active" : ""}`}" title="Set as Home" @click="${e => { e.stopPropagation(); setHome(s); }}">🏠</button>
+          <button class="${() => `work-favorite-button ${s.is_work ? "active" : ""}`}" title="Set as Work" @click="${e => { e.stopPropagation(); setWork(s); }}">💼</button>
           <button class="edit-favorite-button" title="Rename Favorite" @click="${e => { e.stopPropagation(); renameFavorite(s); }}">✏️</button>
           <button class="remove-favorite-button" title="Remove from Favorites" @click="${e => { e.stopPropagation(); removeFavorite(s); }}">🗑️</button>
         </div>
@@ -818,7 +818,7 @@ function NavigationDestination({
           isConfirmed()
             ? html`<button class="cancel" @click="${cancelNavigation}"><i class="bi bi-x-lg"></i> Cancel Navigation</button>`
             : html`<button class="directions" @click="${confirmDestination}"><i class="bi bi-sign-turn-right"></i> Start Navigation</button>`}
-        <button class="favorite" @click="${toggleFavorite}">${isFavorited ? "💔 Unfavorite" : "❤️ Favorite"}</button>
+        <button class="favorite" @click="${toggleFavorite}">${() => isFavorited ? "💔 Unfavorite" : "❤️ Favorite"}</button>
       </div>
     </div>
   `;

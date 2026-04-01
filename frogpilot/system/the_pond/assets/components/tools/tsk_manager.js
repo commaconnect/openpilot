@@ -130,7 +130,7 @@ const api = {
   },
 
   delete: async (name) => {
-    const url = `${api.path}?name=${encodeURIComponent(name)}`
+    const url = `${api.path}?name="${encodeURIComponent(name)}"`
     const { ok, data } = await util.req(url, { method: "DELETE" })
 
     state.confirmDelete.visible = false;
@@ -229,13 +229,13 @@ export function TSKManager() {
           />
           <button
             class="${() => `tskkeys-btn ${state.saved ? "delete" : ""} ${!canSave() ? "disabled" : ""}`}"
-            disabled="${() => !canSave()}"
+            ?disabled="${() => !canSave()}"
             @click="${() => api.save()}">
             💾
           </button>
           <button
             class="${() => `tskkeys-btn delete ${!state.selectedKeyName ? "disabled" : ""}`}"
-            disabled="${() => !state.selectedKeyName}"
+            ?disabled="${() => !state.selectedKeyName}"
             @click="${() => {
               state.confirmDelete.visible = true
               state.confirmDelete.keyName = state.selectedKeyName
@@ -260,7 +260,7 @@ export function TSKManager() {
         <div class="tskkeys-row tskkeys-apply-wrapper">
           <button
             class="${() => `tskkeys-btn apply ${!state.selectedKeyName ? "disabled" : ""}`}"
-            disabled="${() => !state.selectedKeyName}"
+            ?disabled="${() => !state.selectedKeyName}"
             @click="${() => {
               const selected = state.keys.find(k => k.name === state.selectedKeyName)
               if (selected) {

@@ -34,7 +34,7 @@ function formatRouteDate(dateString) {
 async function fetchRoutes() {
   try {
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const response = await fetch(`/api/routes?timezone=${encodeURIComponent(userTimezone)}`);
+    const response = await fetch(`/api/routes?timezone="${encodeURIComponent(userTimezone)}"`);
     if (!response.ok) throw new Error();
 
     const reader = response.body.getReader();
@@ -227,7 +227,7 @@ async function openOverlay(route) {
 
   downloadButton.onclick = () => {
     const link = document.createElement("a");
-    const videoPath = `/video/${route.name}/combined?camera=${selectedCamera}`;
+    const videoPath = `/video/${route.name}/combined?camera="${selectedCamera}"`;
     link.href = videoPath;
     link.download = `${route.timestamp}-${selectedCamera}.mp4`;
     document.body.appendChild(link);
@@ -258,7 +258,7 @@ async function openOverlay(route) {
   vid.addEventListener("ended", () => {
     current++;
     if (current < segments.length) {
-      const videoPath = segments[current].includes("?") ? `${segments[current]}&camera=${selectedCamera}` : `${segments[current]}?camera=${selectedCamera}`
+      const videoPath = segments[current].includes("?") ? `${segments[current]}&camera="${selectedCamera}"` : `${segments[current]}?camera="${selectedCamera}"`
       vid.src = videoPath;
       vid.load();
       vid.play();
@@ -270,7 +270,7 @@ async function openOverlay(route) {
       overlay.querySelectorAll(".camera-button").forEach(btn => btn.classList.remove("active"));
       e.target.classList.add("active");
       selectedCamera = e.target.dataset.camera;
-      vid.src = segments[current].includes("?") ? `${segments[current]}&camera=${selectedCamera}` : `${segments[current]}?camera=${selectedCamera}`;
+      vid.src = segments[current].includes("?") ? `${segments[current]}&camera="${selectedCamera}"` : `${segments[current]}?camera="${selectedCamera}"`;
       vid.load();
       vid.play();
     });
@@ -403,8 +403,9 @@ export function RouteRecordings() {
                     }}"
                   >
                     <div class="preserved-icon" @click="${e => togglePreserved(route, e)}">
-                      ${() => html`<i class="bi ${route.is_preserved ? "bi-heart-fill" : "bi-heart"}"></i>`}
+                      ${() => html`<i class="${`bi ${route.is_preserved ? "bi-heart-fill" : "bi-heart"}`}"></i>`}
                     </div>
+
                     <div class="recording-preview-container">
                       <img
                         src="${route.png}"

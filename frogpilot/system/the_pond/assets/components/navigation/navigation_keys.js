@@ -209,25 +209,25 @@ export function NavKeys() {
       <div class="navkeys-group">
         <div class="navkeys-title">
           ${title}
-          ${isMapbox ? html`
+          ${() => isMapbox ? html`
             <span class="navkeys-help-icon" @click="${() => state.showMapboxHelp = !state.showMapboxHelp}">
               <i class="bi bi-question-circle-fill"></i>
             </span>
           ` : ""}
         </div>
 
-        ${kinds.map(kind => {
+        ${() => kinds.map(kind => {
           const keyMeta = meta[kind]
           const label = kind[0].toUpperCase() + kind.slice(1).replace(/[0-9]/, d => " " + d)
 
           return html`
-            <label class="navkeys-label" for="${kind}-key">${label} Key</label>
+            <label class="navkeys-label" for="${`${kind}-key`}">${label} Key</label>
             <div class="navkeys-row">
               <input
                 autocomplete="off"
                 class="navkeys-input"
-                id="${kind}-key"
-                placeholder="${keyMeta.prefix || ""}xxxxxx..."
+                id="${`${kind}-key`}"
+                placeholder="${`${keyMeta.prefix || ""}xxxxxx...`}"
                 value="${() => state[keyMeta.saved] ? util.mask(state[keyMeta.prop]) : state[keyMeta.prop]}"
                 @keydown="${(e) => {
                   if (state[keyMeta.saved] && !state[keyMeta.edit]) {
@@ -242,7 +242,7 @@ export function NavKeys() {
               <button
                 class="${() => `navkeys-btn ${state[keyMeta.saved] ? "delete" : ""}`}"
                 @click="${() => state[keyMeta.saved] ? api.confirmDelete(kind) : api.save(kind)()}"
-                disabled="${() => !state[keyMeta.saved] && !canSave(kind)}">
+                ?disabled="${() => !state[keyMeta.saved] && !canSave(kind)}">
                 ${() => state[keyMeta.saved] ? "🗑️" : "💾"}
               </button>
             </div>

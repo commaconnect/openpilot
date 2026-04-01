@@ -398,7 +398,7 @@ const fetchDownloadables = async () => {
   };
   const parseList = s => (s || "").split(",").map(v => v.trim()).filter(Boolean);
   for (const [slot, param] of Object.entries(keys)) {
-    const r = await fetch(`/api/params?key=${encodeURIComponent(param)}`);
+    const r = await fetch(`/api/params?key="${encodeURIComponent(param)}"`);
     const txt = await r.text();
     state.downloadable[slot] = parseList(txt);
   }
@@ -840,13 +840,13 @@ export function ThemeMaker() {
     clearAssetType(assetType);
 
     try {
-      const response = await fetch(`/api/themes/load/${theme.path}?type=${theme.type}`);
+      const response = await fetch(`/api/themes/load/${theme.path}?type="${theme.type}"`);
       const data = await response.json();
 
       const fetchAndStoreFile = async (assetPath, key, subkey = null, type = "image", assetGroup = "") => {
         if (!assetPath) return;
         try {
-          const url = `/api/themes/asset/${theme.path}/${assetPath}?type=${theme.type}`;
+          const url = `/api/themes/asset/${theme.path}/${assetPath}?type="${theme.type}"`;
           const fileResponse = await fetch(url);
           const blob = await fileResponse.blob();
           const filename = assetPath.split("/").pop();
@@ -886,7 +886,7 @@ export function ThemeMaker() {
       }
 
       if (assetType === "steering_wheel" && theme.path) {
-        const url = `/api/themes/asset/${theme.path}/${data.images.steeringWheel.path}?type=${theme.type}`;
+        const url = `/api/themes/asset/${theme.path}/${data.images.steeringWheel.path}?type="${theme.type}"`;
         const fileResponse = await fetch(url);
         const blob = await fileResponse.blob();
         const file = new File([blob], theme.path, { type: blob.type });
@@ -922,7 +922,7 @@ export function ThemeMaker() {
         if (data.sequentialImages && data.sequentialImages.length > 0) {
           state.imageFileNames.turnSignal = theme.name;
           for (const img of data.sequentialImages) {
-            const url = `/api/themes/asset/${theme.path}/signals/${img}?type=${theme.type}`;
+            const url = `/api/themes/asset/${theme.path}/signals/${img}?type="${theme.type}"`;
             const fileResponse = await fetch(url);
             const blob = await fileResponse.blob();
             const file = new File([blob], img, { type: blob.type });
@@ -986,9 +986,9 @@ export function ThemeMaker() {
 
     const component = state.activeTab === "steering_wheel"
       ? ""
-      : `&component=${state.activeTab === "turn_signals" ? "signals" : state.activeTab}`;
+      : `&component="${state.activeTab === "turn_signals" ? "signals" : state.activeTab}"`;
 
-    const response = await fetch(`/api/themes/delete/${theme.path}?type=${theme.type}${component}`, { method: "DELETE" });
+    const response = await fetch(`/api/themes/delete/${theme.path}?type="${theme.type}"${component}`, { method: "DELETE" });
     const result = await response.json();
     if (response.ok) {
       showSnackbar(result.message, "success");
@@ -1027,12 +1027,12 @@ export function ThemeMaker() {
             <div class="theme-maker-form">
               <div class="upload-section">
                 ${["traffic", "aggressive", "standard", "relaxed"].map(key => html`<div>
-                    <input type="file" class="file-upload-input" id="file-upload-distance-${key}" accept="image/*"
+                    <input type="file" class="file-upload-input" id="${`file-upload-distance-${key}`}" accept="image/*"
                       @change="${e => handleFileUpload(e, "image", "distanceIcons", key)}" />
                     <div class="file-upload-label">
                       <span class="file-upload-text">${key.charAt(0).toUpperCase() + key.slice(1)}</span>
                       <span class="file-name-display">${() => state.imageFileNames.distanceIcons[key] || ''}</span>
-                      <label for="file-upload-distance-${key}" class="file-upload-button">Choose File</label>
+                      <label for="${`file-upload-distance-${key}`}" class="file-upload-button">Choose File</label>
                       ${() => state.imageFileNames.distanceIcons[key] ? html`
                         <button class="file-clear-button" title="Clear" @click="${e => onClearClick(e, "image", "distanceIcons", key)}">
                           <i class="bi bi-trash-fill"></i>
@@ -1052,12 +1052,12 @@ export function ThemeMaker() {
             <div class="theme-maker-form">
               <div class="upload-section">
                 ${Object.keys(ICON_LABELS).map(key => html`<div>
-                    <input type="file" class="file-upload-input" id="file-upload-${key}" accept="image/*"
+                    <input type="file" class="file-upload-input" id="${`file-upload-${key}`}" accept="image/*"
                       @change="${e => handleFileUpload(e, "image", key)}" />
                     <div class="file-upload-label">
                       <span class="file-upload-text">${ICON_LABELS[key]}</span>
                       <span class="file-name-display">${() => state.imageFileNames[key] || ''}</span>
-                      <label for="file-upload-${key}" class="file-upload-button">Choose File</label>
+                      <label for="${`file-upload-${key}`}" class="file-upload-button">Choose File</label>
                       ${() => state.imageFileNames[key] ? html`
                         <button class="file-clear-button" title="Clear" @click="${e => onClearClick(e, "image", key)}">
                           <i class="bi bi-trash-fill"></i>
@@ -1078,12 +1078,12 @@ export function ThemeMaker() {
             <div class="theme-maker-form">
               <div class="upload-section">
                 ${SOUND_DEFINITIONS.map(({ key, label }) => html`<div>
-                    <input type="file" class="file-upload-input" id="file-upload-${key}" accept="audio/*"
+                    <input type="file" class="file-upload-input" id="${`file-upload-${key}`}" accept="audio/*"
                       @change="${e => handleFileUpload(e, "audio", key)}" />
                     <div class="file-upload-label">
                       <span class="file-upload-text">${label}</span>
                       <span class="file-name-display">${() => state.soundFileNames[key] || ''}</span>
-                      <label for="file-upload-${key}" class="file-upload-button">Choose File</label>
+                      <label for="${`file-upload-${key}`}" class="file-upload-button">Choose File</label>
                       ${() => state.soundFileNames[key] ? html`
                         <button class="file-clear-button" title="Clear" @click="${e => onClearClick(e, "audio", key)}">
                           <i class="bi bi-trash-fill"></i>
@@ -1174,7 +1174,7 @@ export function ThemeMaker() {
                 </div>
                 <div>
                   <input type="file" class="file-upload-input" id="file-upload-turnSignal" accept="image/*"
-                    :multiple="${() => state.turnSignalType === "Sequential"}"
+                    ?multiple="${() => state.turnSignalType === "Sequential"}"
                     @change="${e => handleFileUpload(e, "image", "turnSignal")}" />
                   <div class="file-upload-label">
                     <span class="file-upload-text">${() => state.turnSignalType === "Sequential" ? "Turn Signals" : "Turn Signal"}</span>
@@ -1203,14 +1203,14 @@ export function ThemeMaker() {
           </section>
         </div>
         <div class="save-button-wrapper">
-          <button class="apply-button" @click="${confirmApply}" :disabled="${() => state.isApplying}">
+          <button class="apply-button" @click="${confirmApply}" ?disabled="${() => state.isApplying}">
             ${() => state.isApplying ? "Applying..." : "Apply Theme"}
           </button>
           <button class="manage-themes-button" @click="${manageThemes}">Manage Themes</button>
-          <button class="save-button" @click="${confirmSave}" :disabled="${() => state.isSaving}">
+          <button class="save-button" @click="${confirmSave}" ?disabled="${() => state.isSaving}">
             ${() => state.isSaving ? "Saving..." : "Save Theme"}
           </button>
-          <button class="submit-button" @click="${confirmSubmit}" :disabled="${() => state.isSubmitting}">
+          <button class="submit-button" @click="${confirmSubmit}" ?disabled="${() => state.isSubmitting}">
             ${() => state.isSubmitting ? "Submitting..." : "Submit Theme"}
           </button>
         </div>
@@ -1222,32 +1222,32 @@ export function ThemeMaker() {
           <div class="checklist-container">
             <p style="margin-bottom: 10px; text-align: left; font-weight: bold;">Select components to apply:</p>
             <label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.colors}" @click="${() => state.saveChecklist.colors = !state.saveChecklist.colors}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.colors}" @click="${() => state.saveChecklist.colors = !state.saveChecklist.colors}">
               <span class="label-text">Colors</span>
               <span class="custom-checkbox"></span>
             </label>
             ${() => hasDistanceIcons() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.distance_icons}" @click="${() => state.saveChecklist.distance_icons = !state.saveChecklist.distance_icons}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.distance_icons}" @click="${() => state.saveChecklist.distance_icons = !state.saveChecklist.distance_icons}">
               <span class="label-text">Distance Icons</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasIcons() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.icons}" @click="${() => state.saveChecklist.icons = !state.saveChecklist.icons}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.icons}" @click="${() => state.saveChecklist.icons = !state.saveChecklist.icons}">
               <span class="label-text">Icons</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasSounds() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.sounds}" @click="${() => state.saveChecklist.sounds = !state.saveChecklist.sounds}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.sounds}" @click="${() => state.saveChecklist.sounds = !state.saveChecklist.sounds}">
               <span class="label-text">Sounds</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasSteeringWheel() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.steering_wheel}" @click="${() => state.saveChecklist.steering_wheel = !state.saveChecklist.steering_wheel}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.steering_wheel}" @click="${() => state.saveChecklist.steering_wheel = !state.saveChecklist.steering_wheel}">
               <span class="label-text">Steering Wheel</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasTurnSignals() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.turn_signals}" @click="${() => state.saveChecklist.turn_signals = !state.saveChecklist.turn_signals}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.turn_signals}" @click="${() => state.saveChecklist.turn_signals = !state.saveChecklist.turn_signals}">
               <span class="label-text">Turn Signals</span>
               <span class="custom-checkbox"></span>
             </label>`}
@@ -1270,32 +1270,32 @@ export function ThemeMaker() {
           <div class="checklist-container">
             <p style="margin-bottom: 10px; text-align: left; font-weight: bold;">Select components to save:</p>
             <label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.colors}" @click="${() => state.saveChecklist.colors = !state.saveChecklist.colors}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.colors}" @click="${() => state.saveChecklist.colors = !state.saveChecklist.colors}">
               <span class="label-text">Colors</span>
               <span class="custom-checkbox"></span>
             </label>
             ${() => hasDistanceIcons() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.distance_icons}" @click="${() => state.saveChecklist.distance_icons = !state.saveChecklist.distance_icons}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.distance_icons}" @click="${() => state.saveChecklist.distance_icons = !state.saveChecklist.distance_icons}">
               <span class="label-text">Distance Icons</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasIcons() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.icons}" @click="${() => state.saveChecklist.icons = !state.saveChecklist.icons}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.icons}" @click="${() => state.saveChecklist.icons = !state.saveChecklist.icons}">
               <span class="label-text">Icons</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasSounds() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.sounds}" @click="${() => state.saveChecklist.sounds = !state.saveChecklist.sounds}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.sounds}" @click="${() => state.saveChecklist.sounds = !state.saveChecklist.sounds}">
               <span class="label-text">Sounds</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasSteeringWheel() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.steering_wheel}" @click="${() => state.saveChecklist.steering_wheel = !state.saveChecklist.steering_wheel}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.steering_wheel}" @click="${() => state.saveChecklist.steering_wheel = !state.saveChecklist.steering_wheel}">
               <span class="label-text">Steering Wheel</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasTurnSignals() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.turn_signals}" @click="${() => state.saveChecklist.turn_signals = !state.saveChecklist.turn_signals}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.turn_signals}" @click="${() => state.saveChecklist.turn_signals = !state.saveChecklist.turn_signals}">
               <span class="label-text">Turn Signals</span>
               <span class="custom-checkbox"></span>
             </label>`}
@@ -1321,27 +1321,27 @@ export function ThemeMaker() {
           <div class="checklist-container">
             <p style="margin-bottom: 10px; text-align: left; font-weight: bold;">Select components to submit:</p>
             <label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.colors}" @click="${() => state.saveChecklist.colors = !state.saveChecklist.colors}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.colors}" @click="${() => state.saveChecklist.colors = !state.saveChecklist.colors}">
               <span class="label-text">Colors</span>
               <span class="custom-checkbox"></span>
             </label>
             ${() => hasDistanceIcons() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.distance_icons}" @click="${() => state.saveChecklist.distance_icons = !state.saveChecklist.distance_icons}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.distance_icons}" @click="${() => state.saveChecklist.distance_icons = !state.saveChecklist.distance_icons}">
               <span class="label-text">Distance Icons</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasSounds() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.sounds}" @click="${() => state.saveChecklist.sounds = !state.saveChecklist.sounds}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.sounds}" @click="${() => state.saveChecklist.sounds = !state.saveChecklist.sounds}">
               <span class="label-text">Sounds</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasSteeringWheel() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.steering_wheel}" @click="${() => state.saveChecklist.steering_wheel = !state.saveChecklist.steering_wheel}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.steering_wheel}" @click="${() => state.saveChecklist.steering_wheel = !state.saveChecklist.steering_wheel}">
               <span class="label-text">Steering Wheel</span>
               <span class="custom-checkbox"></span>
             </label>`}
             ${() => hasTurnSignals() && html`<label class="checklist-item">
-              <input type="checkbox" :checked="${() => state.saveChecklist.turn_signals}" @click="${() => state.saveChecklist.turn_signals = !state.saveChecklist.turn_signals}">
+              <input type="checkbox" ?checked="${() => state.saveChecklist.turn_signals}" @click="${() => state.saveChecklist.turn_signals = !state.saveChecklist.turn_signals}">
               <span class="label-text">Turn Signals</span>
               <span class="custom-checkbox"></span>
             </label>`}

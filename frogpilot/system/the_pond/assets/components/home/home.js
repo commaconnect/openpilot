@@ -10,11 +10,11 @@ function DiskUsage(disk) {
       <div class="progress">
         <div
           class="bar"
-          style="
+          style="${`
             border-bottom-right-radius: ${rightRadius};
             border-top-right-radius: ${rightRadius};
             width: ${100 - used}%;
-          "
+          `}"
         ></div>
       </div>
     </div>
