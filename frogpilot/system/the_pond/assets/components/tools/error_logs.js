@@ -75,8 +75,7 @@ export function ErrorLogs() {
               <div style="text-align: center; padding: 1rem;">
                 <button
                   class="delete-all-button"
-                  @click="${() => (state.showDeleteAllModal = true)}"
-                >
+                  @click="${() => (state.showDeleteAllModal = true)}">
                   Delete All Error Logs
                 </button>
               </div>

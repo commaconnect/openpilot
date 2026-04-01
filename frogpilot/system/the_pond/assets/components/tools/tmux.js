@@ -156,7 +156,7 @@ function TmuxLogSelector({ action, closeFn }) {
                 <input
                   class="modal-input"
                   type="text"
-                  value="${logSelectorState.newName}"
+                  value="${() => logSelectorState.newName}"
                   @click="${e => e.stopPropagation()}"
                   @input="${(e) => logSelectorState.newName = e.target.value}"
                 />
