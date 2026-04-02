@@ -117,7 +117,8 @@ def frogpilot_thread():
       frogpilot_planner.update(now, time_validated, sm, frogpilot_toggles)
       frogpilot_planner.publish(theme_manager.theme_updated, toggles_updated, sm, pm, frogpilot_toggles)
 
-      frogpilot_tracking.update(now, time_validated, sm, frogpilot_toggles)
+      # Don't update frogpilot_tracking, hardcoded disable for now
+      # frogpilot_tracking.update(now, time_validated, sm, frogpilot_toggles)
     elif not started:
       frogpilot_plan_send = messaging.new_message("frogpilotPlan")
       frogpilot_plan_send.frogpilotPlan.themeUpdated = theme_manager.theme_updated or params_memory.get_bool("UseActiveTheme")

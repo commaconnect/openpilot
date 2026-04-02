@@ -18,6 +18,11 @@ RANDOM_EVENT_END = FrogPilotEventName.youveGotMail
 
 class FrogPilotTracking:
   def __init__(self, frogpilot_planner, frogpilot_toggles):
+    # Hardcoded disable: clear existing stats and show "DISABLED" in the UI
+    self.frogpilot_stats = {"FrogPilotDrives": "DISABLED"}
+    params.put("FrogPilotStats", json.dumps(self.frogpilot_stats))
+    return
+
     self.frogpilot_events = frogpilot_planner.frogpilot_events
     self.frogpilot_weather = frogpilot_planner.frogpilot_weather
 
@@ -65,6 +70,9 @@ class FrogPilotTracking:
     self.model_name = clean_model_name(frogpilot_toggles.model_name)
 
   def update(self, now, time_validated, sm, frogpilot_toggles):
+    # Hardcoded disable to prevent memory growth issues until a proper toggle/optimization is implemented
+    return
+
     v_cruise = min(sm["controlsState"].vCruiseCluster, V_CRUISE_MAX) * CV.KPH_TO_MS
     v_ego = max(sm["carState"].vEgo, 0)
 
